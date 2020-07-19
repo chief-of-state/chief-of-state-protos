@@ -1,0 +1,15 @@
+*.cs
+*.rb
+*.go
+*.java
+*.m
+*.h
+*.py
+.vscode
+gen/
+.idea/
+.DS_Store
+.vs/
+*.env
+*.swp
+*.bin
