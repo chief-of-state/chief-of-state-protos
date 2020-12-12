@@ -1,5 +1,5 @@
 ## Chief Of State
 
-![ci](https://github.com/namely/chief-of-state-protos/workflows/ci/badge.svg)
+![build](https://github.com/namely/chief-of-state-protos/workflows/build/badge.svg)
 
 This is the monorepo housing all the protobuf definitions of Chief Of State.
