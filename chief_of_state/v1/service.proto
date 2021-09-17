@@ -2,46 +2,44 @@ syntax = "proto3";
 
 package chief_of_state.v1;
 
-option csharp_namespace = "Namely.ChiefOfState.V1";
-option go_package = "chief_of_state/v1;chiefofstatev1";
-option java_multiple_files = true;
+option csharp_namespace     = "ChiefOfState.V1";
+option go_package           = "chief_of_state/v1;chiefofstatev1";
+option java_multiple_files  = true;
 option java_outer_classname = "CosServiceProto";
-option java_package = "com.namely.protobuf.chiefofstate.v1";
+option java_package         = "com.github.chiefofstate.protobuf.v1";
 
 import "chief_of_state/v1/common.proto";
 import "google/protobuf/any.proto";
 
 // Service definition
 service ChiefOfStateService {
-  // Used to process command sent by an application
-  rpc ProcessCommand(ProcessCommandRequest) returns (ProcessCommandResponse);
-  // Used to get the current state of that entity
-  rpc GetState(GetStateRequest) returns (GetStateResponse);
+    // Used to process command sent by an application
+    rpc ProcessCommand(ProcessCommandRequest) returns (ProcessCommandResponse);
+    // Used to get the current state of that entity
+    rpc GetState(GetStateRequest) returns (GetStateResponse);
 }
 
 // ProcessCommandRequest
 message ProcessCommandRequest {
-  // the entity unique id
-  string entity_id = 1;
-  // the command to process
-  google.protobuf.Any command = 2;
+    // the entity unique id
+    string entity_id = 1;
+    // the command to process
+    google.protobuf.Any command = 2;
 }
 
 // ProcessCommandResponse
 message ProcessCommandResponse {
-  // the entity state returned after the command has been processed
-  google.protobuf.Any state = 1;
-  // additional meta data
-  chief_of_state.v1.MetaData meta = 2;
+    // the entity state returned after the command has been processed
+    google.protobuf.Any state = 1;
+    // additional meta data
+    chief_of_state.v1.MetaData meta = 2;
 }
 
-message GetStateRequest {
-  string entity_id = 1;
-}
+message GetStateRequest { string entity_id = 1; }
 
 message GetStateResponse {
-  // the current state of the entity
-  google.protobuf.Any state = 1;
-  // additional meta data
-  chief_of_state.v1.MetaData meta = 2;
+    // the current state of the entity
+    google.protobuf.Any state = 1;
+    // additional meta data
+    chief_of_state.v1.MetaData meta = 2;
 }

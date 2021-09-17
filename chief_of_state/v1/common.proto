@@ -2,32 +2,32 @@ syntax = "proto3";
 
 package chief_of_state.v1;
 
-option csharp_namespace = "Namely.ChiefOfState.V1";
-option go_package = "chief_of_state/v1;chiefofstatev1";
-option java_multiple_files = true;
+option csharp_namespace     = "ChiefOfState.V1";
+option go_package           = "chief_of_state/v1;chiefofstatev1";
+option java_multiple_files  = true;
 option java_outer_classname = "CosCommonProto";
-option java_package = "com.namely.protobuf.chiefofstate.v1";
+option java_package         = "com.github.chiefofstate.protobuf.v1";
 
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
 
 message MetaData {
-  string entity_id = 1;
-  // the revision number for the entity, increases sequentially
-  // this is very useful to handle optimistic lock
-  uint32 revision_number = 2;
-  // the time the state has been modified
-  google.protobuf.Timestamp revision_date = 3;
-  // use to store additional data.
-  map<string, google.protobuf.Any> data = 4;
-  // headers
-  repeated Header headers = 5;
+    string entity_id = 1;
+    // the revision number for the entity, increases sequentially
+    // this is very useful to handle optimistic lock
+    uint32 revision_number = 2;
+    // the time the state has been modified
+    google.protobuf.Timestamp revision_date = 3;
+    // use to store additional data.
+    map<string, google.protobuf.Any> data = 4;
+    // headers
+    repeated Header headers = 5;
 }
 
 message Header {
-  string key = 1;
-  oneof value {
-    string string_value = 2;
-    bytes bytes_value = 3;
-  }
+    string key = 1;
+    oneof value {
+        string string_value = 2;
+        bytes bytes_value   = 3;
+    }
 }
