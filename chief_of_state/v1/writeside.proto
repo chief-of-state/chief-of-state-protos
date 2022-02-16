@@ -16,46 +16,46 @@ import "google/protobuf/any.proto";
 // implement the gRPC server while ChiefOfState will make use the client side to
 // interact.
 service WriteSideHandlerService {
-    // Processes every command sent by ChiefOfState and return either a response
-    // containing an event to persist or a simple reply.
-    rpc HandleCommand(HandleCommandRequest) returns (HandleCommandResponse);
-    // Processes every event sent by ChiefOfState by applying the event to the
-    // current state to return a new state.
-    rpc HandleEvent(HandleEventRequest) returns (HandleEventResponse);
+  // Processes every command sent by ChiefOfState and return either a response
+  // containing an event to persist or a simple reply.
+  rpc HandleCommand(HandleCommandRequest) returns (HandleCommandResponse);
+  // Processes every event sent by ChiefOfState by applying the event to the
+  // current state to return a new state.
+  rpc HandleEvent(HandleEventRequest) returns (HandleEventResponse);
 }
 
 // HandleCommandRequest
 message HandleCommandRequest {
-    // the command to handle
-    google.protobuf.Any command = 1;
-    // the aggregate state at the moment of handling the command. This is the
-    // state before the command being handled.
-    google.protobuf.Any prior_state = 2;
-    // the prior event meta data. This is the event meta data of the last event
-    // before this command
-    chief_of_state.v1.MetaData prior_event_meta = 3;
+  // the command to handle
+  google.protobuf.Any command = 1;
+  // the aggregate state at the moment of handling the command. This is the
+  // state before the command being handled.
+  google.protobuf.Any prior_state = 2;
+  // the prior event meta data. This is the event meta data of the last event
+  // before this command
+  chief_of_state.v1.MetaData prior_event_meta = 3;
 }
 
 // HandleCommandResponse
 message HandleCommandResponse {
-    // An event to append to the journal. If not set, COS
-    // will treat this command as a no-op.
-    google.protobuf.Any event = 1;
+  // An event to append to the journal. If not set, COS
+  // will treat this command as a no-op.
+  google.protobuf.Any event = 1;
 }
 
 // HandleEventRequest
 message HandleEventRequest {
-    // the event to handle
-    google.protobuf.Any event = 1;
-    // the state before the event is being handled.
-    google.protobuf.Any prior_state = 2;
-    // the meta data of this event
-    chief_of_state.v1.MetaData event_meta = 3;
+  // the event to handle
+  google.protobuf.Any event = 1;
+  // the state before the event is being handled.
+  google.protobuf.Any prior_state = 2;
+  // the meta data of this event
+  chief_of_state.v1.MetaData event_meta = 3;
 }
 
 // HandleEventResponse contains the resulting state
 // after the event has been handled
 message HandleEventResponse {
-    // resulting state after the event has been handled
-    google.protobuf.Any resulting_state = 1;
+  // resulting state after the event has been handled
+  google.protobuf.Any resulting_state = 1;
 }
