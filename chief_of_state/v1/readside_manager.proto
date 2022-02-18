@@ -32,6 +32,10 @@ service ReadSideManagerService {
   rpc ResumeReadSide(ResumeReadSideRequest) returns (ResumeReadSideResponse);
   // ResumeReadSideByShard  resumes a paused read side for a given shard
   rpc ResumeReadSideByShard(ResumeReadSideByShardRequest) returns (ResumeReadSideByShardResponse);
+  // SkippOffset skips the current offset to read across all shards and continue with next. The operation will automatically restart the read side.
+  rpc SkipOffset(SkipOffsetRequest) returns (SkipOffSetResponse);
+  // SkippOffset skips the current offset to read for a given shard and continue with next. The operation will automatically restart the read side.
+  rpc SkipOffsetByShard(SkipOffsetByShardRequest) returns (SkipOffSetByShardResponse);
 }
 
 // GetReadSideLatestOffsetRequest helps retrieve the
@@ -120,6 +124,28 @@ message ResumeReadSideByShardResponse {
 }
 
 message ResumeReadSideResponse {
+  // states whether the pause request was successful
+  bool successful = 1;
+}
+
+message SkipOffsetRequest {
+  // the read side unique identifier
+  string read_side_id = 1;
+}
+
+message SkipOffSetResponse {
+  // states whether the pause request was successful
+  bool successful = 1;
+}
+
+message SkipOffsetByShardRequest {
+  // the read side unique identifier
+  string read_side_id = 1;
+  // the cluster shard number
+  uint64 cluster_shard_number = 2;
+}
+
+message SkipOffSetByShardResponse {
   // states whether the pause request was successful
   bool successful = 1;
 }
