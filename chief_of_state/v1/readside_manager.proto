@@ -5,14 +5,14 @@ package chief_of_state.v1;
 option csharp_namespace = "ChiefOfState.V1";
 option go_package = "chief_of_state/v1;chiefofstatev1";
 option java_multiple_files = true;
-option java_outer_classname = "CosManagementProto";
+option java_outer_classname = "CosReadSideManagerProto";
 option java_package = "com.github.chiefofstate.protobuf.v1";
 
 import "chief_of_state/v1/common.proto";
 
 // ManagementService helps manage some aspect of chiefofstate
 // like read sides offsets and state and others
-service ReadSideManagementService {
+service ReadSideManagerService {
   // GetLatestOffset retrieves latest offset across all shards
   rpc GetLatestOffset(GetLatestOffsetRequest) returns (GetLatestOffsetResponse);
   // GetLatestOffsetByShard retrieves the latest offset given a shard
