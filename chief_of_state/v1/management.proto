@@ -20,7 +20,7 @@ service ReadSideManagementService {
   // from the first offset.
   rpc RestartReadSide(RestartReadSideRequest) returns (RestartReadSideResponse);
   // PauseReadSide pauses a read side. This can be useful when running some data migration
-  rpc PauseReaSide(PauseReadSideRequest) returns (PauseReadSideResponse);
+  rpc PauseReadSide(PauseReadSideRequest) returns (PauseReadSideResponse);
 }
 
 // GetReadSideLatestOffsetRequest helps retrieve the
