@@ -9,18 +9,29 @@ option java_outer_classname = "CosManagementProto";
 option java_package = "com.github.chiefofstate.protobuf.v1";
 
 import "chief_of_state/v1/common.proto";
-import "google/protobuf/empty.proto";
 
 // ManagementService helps manage some aspect of chiefofstate
 // like read sides offsets and state and others
 service ReadSideManagementService {
-  // GetLatestOffset retrieves latest stored offset
+  // GetLatestOffset retrieves latest offset across all shards
   rpc GetLatestOffset(GetLatestOffsetRequest) returns (GetLatestOffsetResponse);
+  // GetLatestOffsetByShard retrieves the latest offset given a shard
+  rpc GetLatestOffsetByShard(GetLatestOffsetByShardRequest) returns (GetLatestOffsetByShardResponse);
   // RestartReadSide will clear the read side offset and start it over again
-  // from the first offset.
+  // from the first offset and this across all shards
   rpc RestartReadSide(RestartReadSideRequest) returns (RestartReadSideResponse);
-  // PauseReadSide pauses a read side. This can be useful when running some data migration
+  // RestartReadSideByShard will clear the read side offset for the given shard and start it over again from the first offset
+  rpc RestartReadSideByShard(RestartReadSideByShardRequest) returns (RestartReadSideByShardResponse);
+  // PauseReadSide pauses a read side. This can be useful when running some data
+  // migration and this across all shards
   rpc PauseReadSide(PauseReadSideRequest) returns (PauseReadSideResponse);
+  // PauseReadSide pauses a read side. This can be useful when running some data
+  // migration and this for a given shard
+  rpc PauseReadSideByShard(PauseReadSideByShardRequest) returns (PauseReadSideByShardResponse);
+  // ResumeReadSide resumes a paused read side and this across all shards
+  rpc ResumeReadSide(ResumeReadSideRequest) returns (ResumeReadSideResponse);
+  // ResumeReadSideByShard  resumes a paused read side for a given shard
+  rpc ResumeReadSideByShard(ResumeReadSideByShardRequest) returns (ResumeReadSideByShardResponse);
 }
 
 // GetReadSideLatestOffsetRequest helps retrieve the
@@ -28,11 +39,17 @@ service ReadSideManagementService {
 message GetLatestOffsetRequest {
   // the read side unique identifier
   string read_side_id = 1;
-  // states whether to get the offset by cluster shard or across all cluster shards
-  oneof by_shard {
-    ByShard shard = 2;
-    google.protobuf.Empty all = 3;
-  }
+}
+
+message GetLatestOffsetByShardRequest {
+  // the read side unique identifier
+  string read_side_id = 1;
+  // the cluster shard number
+  uint64 cluster_shard_number = 2;
+}
+
+message GetLatestOffsetByShardResponse {
+  ReadSideOffset offsets = 1;
 }
 
 // GetReadSideLatestOffsetResponse
@@ -44,11 +61,18 @@ message GetLatestOffsetResponse {
 message RestartReadSideRequest {
   // the read side unique identifier
   string read_side_id = 1;
-  // states whether to get the offset by cluster shard or across all cluster shards
-  oneof by_shard {
-    ByShard shard = 2;
-    google.protobuf.Empty all = 3;
-  }
+}
+
+message RestartReadSideByShardRequest {
+  // the read side unique identifier
+  string read_side_id = 1;
+  // the cluster shard number
+  uint64 cluster_shard_number = 2;
+}
+
+message RestartReadSideByShardResponse {
+  // states whether the restart was successful
+  bool successful = 1;
 }
 
 message RestartReadSideResponse {
@@ -59,11 +83,18 @@ message RestartReadSideResponse {
 message PauseReadSideRequest {
   // the read side unique identifier
   string read_side_id = 1;
-  // states whether to get the offset by cluster shard or across all cluster shards
-  oneof by_shard {
-    ByShard shard = 2;
-    google.protobuf.Empty all = 3;
-  }
+}
+
+message PauseReadSideByShardRequest {
+  // the read side unique identifier
+  string read_side_id = 1;
+  // the cluster shard number
+  uint64 cluster_shard_number = 2;
+}
+
+message PauseReadSideByShardResponse {
+  // states whether the pause request was successful
+  bool successful = 1;
 }
 
 message PauseReadSideResponse {
@@ -74,19 +105,21 @@ message PauseReadSideResponse {
 message ResumeReadSideRequest {
   // the read side unique identifier
   string read_side_id = 1;
-  // states whether to get the offset by cluster shard or across all cluster shards
-  oneof by_shard {
-    ByShard shard = 2;
-    google.protobuf.Empty all = 3;
-  }
+}
+
+message ResumeReadSideByShardRequest {
+  // the read side unique identifier
+  string read_side_id = 1;
+  // the cluster shard number
+  uint64 cluster_shard_number = 2;
+}
+
+message ResumeReadSideByShardResponse {
+  // states whether the pause request was successful
+  bool successful = 1;
 }
 
 message ResumeReadSideResponse {
   // states whether the pause request was successful
   bool successful = 1;
-}
-
-message ByShard {
-  // the cluster shard number
-  uint64 cluster_shard_number = 1;
 }
