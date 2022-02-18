@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package chief_of_state.v1;
+
+option csharp_namespace = "ChiefOfState.V1";
+option go_package = "chief_of_state/v1;chiefofstatev1";
+option java_multiple_files = true;
+option java_outer_classname = "CosManagementProto";
+option java_package = "com.github.chiefofstate.protobuf.v1";
+
+import "chief_of_state/v1/common.proto";
+import "google/protobuf/empty.proto";
+
+// ManagementService helps manage some aspect of chiefofstate
+// like read sides offsets and state and others
+service ReadSideManagementService {
+  // GetLatestOffset retrieves latest stored offset
+  rpc GetLatestOffset(GetLatestOffsetRequest) returns (GetLatestOffsetResponse);
+  // RestartReadSide will clear the read side offset and start it over again
+  // from the first offset.
+  rpc RestartReadSide(RestartReadSideRequest) returns (RestartReadSideResponse);
+  // PauseReadSide pauses a read side. This can be useful when running some data migration
+  rpc PauseReaSide(PauseReadSideRequest) returns (PauseReadSideResponse);
+}
+
+// GetReadSideLatestOffsetRequest helps retrieve the
+// latest offset of a readside
+message GetLatestOffsetRequest {
+  // the read side unique identifier
+  string read_side_id = 1;
+  // states whether to get the offset by cluster shard or across all cluster shards
+  oneof by_shard {
+    ByShard shard = 2;
+    google.protobuf.Empty all = 3;
+  }
+}
+
+// GetReadSideLatestOffsetResponse
+message GetLatestOffsetResponse {
+  // the list of offset
+  repeated ReadSideOffset offsets = 1;
+}
+
+message RestartReadSideRequest {
+  // the read side unique identifier
+  string read_side_id = 1;
+  // states whether to get the offset by cluster shard or across all cluster shards
+  oneof by_shard {
+    ByShard shard = 2;
+    google.protobuf.Empty all = 3;
+  }
+}
+
+message RestartReadSideResponse {
+  // states whether the restart was successful
+  bool successful = 1;
+}
+
+message PauseReadSideRequest {
+  // the read side unique identifier
+  string read_side_id = 1;
+  // states whether to get the offset by cluster shard or across all cluster shards
+  oneof by_shard {
+    ByShard shard = 2;
+    google.protobuf.Empty all = 3;
+  }
+}
+
+message PauseReadSideResponse {
+  // states whether the pause request was successful
+  bool successful = 1;
+}
+
+message ResumeReadSideRequest {
+  // the read side unique identifier
+  string read_side_id = 1;
+  // states whether to get the offset by cluster shard or across all cluster shards
+  oneof by_shard {
+    ByShard shard = 2;
+    google.protobuf.Empty all = 3;
+  }
+}
+
+message ResumeReadSideResponse {
+  // states whether the pause request was successful
+  bool successful = 1;
+}
+
+message ByShard {
+  // the cluster shard number
+  uint64 cluster_shard_number = 1;
+}
