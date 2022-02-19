@@ -2,11 +2,11 @@ syntax = "proto3";
 
 package chief_of_state.v1;
 
-option csharp_namespace     = "ChiefOfState.V1";
-option go_package           = "chief_of_state/v1;chiefofstatev1";
-option java_multiple_files  = true;
+option csharp_namespace = "ChiefOfState.V1";
+option go_package = "chief_of_state/v1;chiefofstatev1";
+option java_multiple_files = true;
 option java_outer_classname = "CosCommonProto";
-option java_package         = "com.github.chiefofstate.protobuf.v1";
+option java_package = "com.github.chiefofstate.protobuf.v1";
 
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
@@ -28,6 +28,14 @@ message Header {
   string key = 1;
   oneof value {
     string string_value = 2;
-    bytes bytes_value   = 3;
+    bytes bytes_value = 3;
   }
+}
+
+message ReadSideOffset {
+  // the cluster shard number
+  uint64 cluster_shard_number = 1;
+  // the latest offset for the given read side id at the given
+  // cluster shard
+  uint64 offset = 2;
 }
