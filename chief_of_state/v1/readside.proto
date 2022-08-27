@@ -8,7 +8,7 @@ import "google/protobuf/any.proto";
 option csharp_namespace = "ChiefOfState.V1";
 option go_package = "chief_of_state/v1;chiefofstatev1";
 option java_multiple_files = true;
-option java_outer_classname = "CosReadSideProto";
+option java_outer_classname = "CosReadSideHandlerProto";
 option java_package = "com.github.chiefofstate.protobuf.v1";
 
 // Defines the readSide handler service interface that will be implemented by
