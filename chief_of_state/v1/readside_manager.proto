@@ -2,16 +2,17 @@ syntax = "proto3";
 
 package chief_of_state.v1;
 
+import "chief_of_state/v1/common.proto";
+
 option csharp_namespace = "ChiefOfState.V1";
 option go_package = "chief_of_state/v1;chiefofstatev1";
 option java_multiple_files = true;
 option java_outer_classname = "CosReadSideManagerProto";
 option java_package = "com.github.chiefofstate.protobuf.v1";
 
-import "chief_of_state/v1/common.proto";
-
 // ReadSideManagerService helps manage some aspect of chiefofstate
-// read sides offsets and state and others
+// read sides offsets and state and others.
+// NOTE: this service is mainly used by CoS and the https://github.com/chief-of-state/cos-cli
 service ReadSideManagerService {
   // GetLatestOffset retrieves latest offset across all shards
   rpc GetLatestOffset(GetLatestOffsetRequest) returns (GetLatestOffsetResponse);
@@ -39,12 +40,21 @@ service ReadSideManagerService {
 }
 
 // GetReadSideLatestOffsetRequest helps retrieve the
-// latest offset of a readside
+// latest offset of a readside accross all shards
 message GetLatestOffsetRequest {
   // the read side unique identifier
   string read_side_id = 1;
 }
 
+// GetReadSideLatestOffsetResponse is the response
+// to GetLatestOffsetRequest
+message GetLatestOffsetResponse {
+  // the list of offset
+  repeated ReadSideOffset offsets = 1;
+}
+
+// GetLatestOffsetByShardRequest helps retrieve the
+// latest offset of a readside per shar
 message GetLatestOffsetByShardRequest {
   // the read side unique identifier
   string read_side_id = 1;
@@ -52,21 +62,28 @@ message GetLatestOffsetByShardRequest {
   uint64 cluster_shard_number = 2;
 }
 
+// GetLatestOffsetByShardResponse is the response
+// to GetLatestOffsetByShardRequest
 message GetLatestOffsetByShardResponse {
   ReadSideOffset offsets = 1;
 }
 
-// GetReadSideLatestOffsetResponse
-message GetLatestOffsetResponse {
-  // the list of offset
-  repeated ReadSideOffset offsets = 1;
-}
-
+// RestartReadSideRequest helps restart a readside
+// accross all shards
 message RestartReadSideRequest {
   // the read side unique identifier
   string read_side_id = 1;
 }
 
+// RestartReadSideResponse is the response to
+// RestartReadSideRequest
+message RestartReadSideResponse {
+  // states whether the restart was successful
+  bool successful = 1;
+}
+
+// RestartReadSideByShardRequest helps restarts a readside
+// for a given shard
 message RestartReadSideByShardRequest {
   // the read side unique identifier
   string read_side_id = 1;
@@ -74,21 +91,28 @@ message RestartReadSideByShardRequest {
   uint64 cluster_shard_number = 2;
 }
 
+// RestartReadSideByShardResponse is the response to
+// RestartReadSideByShardRequest
 message RestartReadSideByShardResponse {
   // states whether the restart was successful
   bool successful = 1;
 }
 
-message RestartReadSideResponse {
-  // states whether the restart was successful
-  bool successful = 1;
-}
-
+// PauseReadSideRequest helps pause a given readside
+// accross all shards.
 message PauseReadSideRequest {
   // the read side unique identifier
   string read_side_id = 1;
 }
 
+// PauseReadSideResponse is the response to PauseReadSideRequest
+message PauseReadSideResponse {
+  // states whether the pause request was successful
+  bool successful = 1;
+}
+
+// PauseReadSideByShardRequest helps pause a given readside
+// for a given shard
 message PauseReadSideByShardRequest {
   // the read side unique identifier
   string read_side_id = 1;
@@ -96,21 +120,26 @@ message PauseReadSideByShardRequest {
   uint64 cluster_shard_number = 2;
 }
 
+// PauseReadSideByShardResponse is the response to PauseReadSideByShardRequest
 message PauseReadSideByShardResponse {
   // states whether the pause request was successful
   bool successful = 1;
 }
 
-message PauseReadSideResponse {
-  // states whether the pause request was successful
-  bool successful = 1;
-}
-
+// ResumeReadSideRequest helps resume a paused readside
+// accross all shards
 message ResumeReadSideRequest {
   // the read side unique identifier
   string read_side_id = 1;
 }
 
+// ResumeReadSideResponse is the response to ResumeReadSideRequest
+message ResumeReadSideResponse {
+  // states whether the pause request was successful
+  bool successful = 1;
+}
+
+// ResumeReadSideByShardRequest helps resume a pause readside for a particular shard
 message ResumeReadSideByShardRequest {
   // the read side unique identifier
   string read_side_id = 1;
@@ -118,26 +147,26 @@ message ResumeReadSideByShardRequest {
   uint64 cluster_shard_number = 2;
 }
 
+// ResumeReadSideByShardResponse is the response to ResumeReadSideByShardRequest
 message ResumeReadSideByShardResponse {
   // states whether the pause request was successful
   bool successful = 1;
 }
 
-message ResumeReadSideResponse {
-  // states whether the pause request was successful
-  bool successful = 1;
-}
-
+// SkipOffsetRequest helps skip the offset of a given readside
+// accross all shards
 message SkipOffsetRequest {
   // the read side unique identifier
   string read_side_id = 1;
 }
 
+// SkipOffsetResponse is the response to SkipOffsetRequest
 message SkipOffsetResponse {
   // states whether the pause request was successful
   bool successful = 1;
 }
 
+// SkipOffsetByShardRequest helps skip the offset of given readside for a given shard.
 message SkipOffsetByShardRequest {
   // the read side unique identifier
   string read_side_id = 1;
@@ -145,6 +174,7 @@ message SkipOffsetByShardRequest {
   uint64 cluster_shard_number = 2;
 }
 
+// SkipOffsetByShardResponse is the response to SkipOffsetByShardRequest
 message SkipOffsetByShardResponse {
   // states whether the pause request was successful
   bool successful = 1;
