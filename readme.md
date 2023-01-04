@@ -1,6 +1,6 @@
 ## Chief Of State
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/chief-of-state/chief-of-state-protos/build)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/chief-of-state/chief-of-state-protos/ci.yml?branch=main)
 
 This is the monorepo housing all the protobuf definitions of Chief Of State.
 
