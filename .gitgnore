@@ -13,3 +13,4 @@ gen/
 *.env
 *.swp
 *.bin
+.idea/
