@@ -18,6 +18,13 @@ option java_package = "com.github.chiefofstate.protobuf.v1";
 service ReadSideHandlerService {
   // Helps build a read model from persisted events and snapshots
   rpc HandleReadSide(HandleReadSideRequest) returns (HandleReadSideResponse);
+}
+
+// Defines the readSide handler streaming service interface that will be implemented by
+// any application that needs to build a readSide from the events persisted.
+// ChiefOfState will connect to this service when the readSide is enabled and
+// push events to it.
+service ReadSideHandlerStreamService {
   // Send a sequence of events and snapshots to be processed to build a read model.
   rpc HandleReadSideStream(stream HandleReadSideStreamRequest) returns (stream HandleReadSideStreamResponse);
 }
