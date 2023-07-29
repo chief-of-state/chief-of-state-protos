@@ -33,3 +33,11 @@ message Header {
     bytes bytes_value = 3;
   }
 }
+
+message ReadSideOffset {
+  // the cluster shard number
+  uint64 cluster_shard_number = 1;
+  // the latest offset for the given read side id at the given
+  // cluster shard
+  uint64 offset = 2;
+}
