@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package chief_of_state.v1;
+
+import "chief_of_state/v1/common.proto";
+import "google/protobuf/any.proto";
+
+option java_multiple_files = true;
+option java_outer_classname = "CosPersistenceProto";
+option java_package = "com.github.chiefofstate.protobuf.v1";
+
+// StateWrapper wraps the aggregate state and metadata
+// This can be used to unwrap the actual aggregate state from the events store database.
+// One for instance can use this message to do some debugging.
+// Note: It is not recommended to play with the message store in this message because one can alter
+// the behaviour of chief of state.
+message StateWrapper {
+    // Specifies the entity state. This is the actual system state
+    google.protobuf.Any state = 1;
+    // Specifies the metadata from the event that made this state
+    chief_of_state.v1.MetaData meta = 3;
+}
+
+// EventWrapper is an event wrapper that holds both the
+// event and the corresponding aggregate root state.
+// This can be used to unwrap the actual aggregate state from the events store database.
+// One for instance can use this message to do some debugging.
+// Note: It is not recommended to play with the message store in this message because one can alter
+// the behaviour of chief of state.
+message EventWrapper {
+    // Specifies the event emitted.
+    // For instance: accountOpened event
+    google.protobuf.Any event = 1;
+    // Specifies the state obtained from processing the event
+    google.protobuf.Any resulting_state = 2;
+    // Specifies the meta data
+    chief_of_state.v1.MetaData meta = 3;
+}

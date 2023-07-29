@@ -11,5 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: wagoid/commitlint-github-action@v5.4.3
       - uses: bufbuild/buf-setup-action@v1.25.0
       - uses: bufbuild/buf-lint-action@v1

@@ -16,20 +16,20 @@ option java_package = "com.github.chiefofstate.protobuf.v1";
 // ChiefOfState will connect to this service when the readSide is enabled and
 // push events to it.
 service ReadSideHandlerService {
-  // Helps build a read model from persisted events and snpahots
+  // Helps build a read model from persisted events and snapshots
   rpc HandleReadSide(HandleReadSideRequest) returns (HandleReadSideResponse);
 }
 
 // ReadSideRequest is used to push the ReadSideHandler
 // events and state persisted in the journal and the snapshot
 message HandleReadSideRequest {
-  // the persisted event
+  // Specifies the persisted event
   google.protobuf.Any event = 1;
-  // the resulting state associated to the persisted event
+  // Specifies the resulting state associated to the persisted event
   google.protobuf.Any state = 2;
-  // additional meta data
+  // Specifies the additional meta data
   chief_of_state.v1.MetaData meta = 3;
-  // the identifier of the read side service receiving the request
+  // Specifies the identifier of the read side service receiving the request
   string read_side_id = 4;
 }
 

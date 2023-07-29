@@ -13,35 +13,44 @@ option java_package = "com.github.chiefofstate.protobuf.v1";
 
 // Service definition
 service ChiefOfStateService {
-  // Used to process command sent by an application
+  // Used to process command sent by an application. Once chief of state receives the command, it either provisions an entity
+  // given the entity unique id when the entity does not exist or retrieves the given entity using the provided entity unique id.
+  // In case of error a gRPC error is returned. For more information refer to https://www.grpc.io/docs/guides/error/
   rpc ProcessCommand(ProcessCommandRequest) returns (ProcessCommandResponse);
-  // Used to get the current state of that entity
+  // Used to get the current state of that entity. When the given entity is not found a NOT_FOUND gRPC error is returned.
+  // In case of error a gRPC error is returned. For more information refer to https://www.grpc.io/docs/guides/error/
   rpc GetState(GetStateRequest) returns (GetStateResponse);
 }
 
-// ProcessCommandRequest
+// ProcessCommandRequest is used to process the command
+// One needs to pass in the entity id and the actual command to send
 message ProcessCommandRequest {
-  // the entity unique id
+  // Specifies the entity unique id
   string entity_id = 1;
-  // the command to process
+  // Specifies the actual command to process
   google.protobuf.Any command = 2;
 }
 
-// ProcessCommandResponse
+// ProcessCommandResponse is the response of ProcessCommandRequest
+// This is returned when the command and event have been successfully processed
+// This includes the resulting state of the processed command and the metadata
 message ProcessCommandResponse {
-  // the entity state returned after the command has been processed
+  // Specifies the entity state returned after the command has been processed
   google.protobuf.Any state = 1;
-  // additional meta data
+  // Specifies the additional meta data
   chief_of_state.v1.MetaData meta = 2;
 }
 
+// GetStateRequest is used to fetch the entity current state
 message GetStateRequest {
+  // Specifies the entity unique id
   string entity_id = 1;
 }
 
+// GetStateResponse is the response of GetStateRequest
 message GetStateResponse {
-  // the current state of the entity
+  // Specifies the current state of the entity
   google.protobuf.Any state = 1;
-  // additional meta data
+  // Specifies the additional meta data
   chief_of_state.v1.MetaData meta = 2;
 }

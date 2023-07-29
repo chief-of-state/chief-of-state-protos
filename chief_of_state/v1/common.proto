@@ -11,17 +11,18 @@ option java_multiple_files = true;
 option java_outer_classname = "CosCommonProto";
 option java_package = "com.github.chiefofstate.protobuf.v1";
 
+// MetaData specifies the event meta
 message MetaData {
-  // specifies the persistent entity unique identifier
+  // Specifies the persistent entity unique identifier
   string entity_id = 1;
-  // the revision number for the entity, increases sequentially
+  // Specifies the revision number for the entity, increases sequentially
   // this is very useful to handle optimistic lock
   uint32 revision_number = 2;
-  // the time the state has been modified
+  // Specifies the time the state has been modified
   google.protobuf.Timestamp revision_date = 3;
-  // use to store additional data.
+  // Specifies the additional data.
   map<string, google.protobuf.Any> data = 4;
-  // headers
+  // Specifies headers
   repeated Header headers = 5;
 }
 
@@ -31,12 +32,4 @@ message Header {
     string string_value = 2;
     bytes bytes_value = 3;
   }
-}
-
-message ReadSideOffset {
-  // the cluster shard number
-  uint64 cluster_shard_number = 1;
-  // the latest offset for the given read side id at the given
-  // cluster shard
-  uint64 offset = 2;
 }
