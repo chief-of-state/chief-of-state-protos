@@ -12,4 +12,4 @@ jobs:
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       - uses: wagoid/commitlint-github-action@v6.1.2
-      - uses: bufbuild/buf-setup-action@v1.42.0
+      - uses: bufbuild/buf-setup-action@v1.45.0
