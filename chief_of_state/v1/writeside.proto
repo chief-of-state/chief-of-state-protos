@@ -64,4 +64,3 @@ message HandleEventResponse {
   // Specifies the resulting state after the event has been handled
   google.protobuf.Any resulting_state = 1;
 }
-

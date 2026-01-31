@@ -20,6 +20,17 @@ service ChiefOfStateService {
   // Used to get the current state of that entity. When the given entity is not found a NOT_FOUND gRPC error is returned.
   // In case of error a gRPC error is returned. For more information refer to https://www.grpc.io/docs/guides/error/
   rpc GetState(GetStateRequest) returns (GetStateResponse);
+  // Used to subscribe to real-time events for a specific entity. Returns a stream of events as they occur.
+  // The stream remains open until the client disconnects. If the entity does not exist yet, events will be
+  // streamed once the entity is created.
+  rpc Subscribe(SubscribeRequest) returns (stream SubscribeResponse);
+  // Used to subscribe to real-time events for all entities. Returns a stream of events as they occur across
+  // all entities in the system. The stream remains open until the client disconnects.
+  rpc SubscribeAll(SubscribeAllRequest) returns (stream SubscribeAllResponse);
+  // Used to unsubscribe from events for a specific entity
+  rpc Unsubscribe(UnsubscribeRequest) returns (UnsubscribeResponse);
+  // Used to unsubscribe from events for all entities
+  rpc UnsubscribeAll(UnsubscribeAllRequest) returns (UnsubscribeAllResponse);
 }
 
 // ProcessCommandRequest is used to process the command
@@ -53,4 +64,67 @@ message GetStateResponse {
   google.protobuf.Any state = 1;
   // Specifies the additional meta data
   chief_of_state.v1.MetaData meta = 2;
+}
+
+// SubscribeRequest is used to subscribe to events for a specific entity
+message SubscribeRequest {
+  // Specifies the entity unique id to subscribe to
+  string entity_id = 1;
+  // Specifies the subscription id
+  string subscription_id = 2;
+}
+
+// SubscribeAllRequest is used to subscribe to events for all entities
+message SubscribeAllRequest {
+  // Empty message - subscribes to all entity events
+  // Specifies the subscription id
+  string subscription_id = 2;
+}
+
+// SubscribeResponse is streamed back to clients for each event that occurs (single-entity subscription)
+message SubscribeResponse {
+  // Specifies the subscription id (from request or server-generated) for use with Unsubscribe
+  string subscription_id = 4;
+  // Specifies the event that was emitted
+  google.protobuf.Any event = 1;
+  // Specifies the resulting state after the event was applied
+  google.protobuf.Any resulting_state = 2;
+  // Specifies the event metadata
+  chief_of_state.v1.MetaData meta = 3;
+}
+
+// SubscribeAllResponse is streamed back to clients for each event that occurs (all-entities subscription)
+message SubscribeAllResponse {
+  // Specifies the subscription id (from request or server-generated) for use with UnsubscribeAll
+  string subscription_id = 4;
+  // Specifies the event that was emitted
+  google.protobuf.Any event = 1;
+  // Specifies the resulting state after the event was applied
+  google.protobuf.Any resulting_state = 2;
+  // Specifies the event metadata
+  chief_of_state.v1.MetaData meta = 3;
+}
+
+// UnsubscribeRequest is used to unsubscribe from events for a specific entity
+message UnsubscribeRequest {
+  // Specifies the subscription id
+  string subscription_id = 1;
+}
+
+// UnsubscribeAllRequest is used to unsubscribe from events for all entities
+message UnsubscribeAllRequest {
+  // Specifies the subscription id
+  string subscription_id = 1;
+}
+
+// UnsubscribeResponse is the response of UnsubscribeRequest
+message UnsubscribeResponse {
+  // Specifies the subscription id
+  string subscription_id = 1;
+}
+
+// UnsubscribeAllResponse is the response of UnsubscribeAllRequest
+message UnsubscribeAllResponse {
+  // Specifies the subscription id
+  string subscription_id = 1;
 }
